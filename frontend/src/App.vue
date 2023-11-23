@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
-import mysugar from './views/mysugar.vue';
-import login from './views/login.vue';
+import Dashboard from './views/Dashboard.vue';
+import Login from './views/Login.vue';
 
 import Sidebar from './components/Sidebar.vue';
 

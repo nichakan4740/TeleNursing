@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-
+import { useRouter } from "vue-router";
 const open = ref(false);
 /* const dimmer = ref(true);
 const right = ref(false); */
@@ -43,10 +43,11 @@ const toggle = () => {
                             fill="#A8B4CD"
                         />
                     </svg>
-                    <span class="text-slate-300">หน้าหลัก</span>
+                   <router-link  :to="{ name: 'home' }" class="text-slate-300">หน้าหลัก</router-link>
                 </a>
                 <!-- ------------------------------------------------------------------------------- -->
                 <a
+                   
                     class="flex item-center space-x-2 py-3 px-4 hover:bg-indigo-500 rounded transition duration-200"
                 >
                     <svg
@@ -60,7 +61,8 @@ const toggle = () => {
                             fill="#A8B4CD"
                         />
                     </svg>
-                    <span class="text-slate-300">สถิติ</span>
+                    <router-link  :to="{ name: 'dashboard' }" class="text-slate-300">สถิติ</router-link>
+                   
                 </a>
                 <!-- ------------------------------------------------------------------------------- -->
                 <a

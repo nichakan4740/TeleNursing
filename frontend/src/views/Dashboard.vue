@@ -2,8 +2,8 @@
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { ref, onBeforeMount, computed } from "vue";
-import Sidebar from '../components/Sidebar.vue';
-
+import Layout from '../layouts/Layout.vue';
+/* show */
 const mysugar = ref([]);
 onBeforeMount(async () => {
   const res = await fetch(`${import.meta.env.VITE_BASE_URL}api/mysugar`,{
@@ -19,6 +19,41 @@ onBeforeMount(async () => {
   } else console.log("no event");
 
 });
+
+/* add */
+const  sugarValue = ref("");
+const  symptom = ref("");
+const  note = ref("");
+const save = async (sugarValue, symptom, note) => {
+  // if (confirm("Please check you password") == true) {
+  const res = await fetch(`${import.meta.env.VITE_BASE_URL}api/mysugar`, {
+    method: "POST",
+  /*   headers: {
+      "content-type": "application/json",
+    }, */
+    body: JSON.stringify({
+      sugarValue: sugarValue,
+      symptom: symptom,
+      note: note,
+    }),
+  });
+  /* if (res.status === 200) {
+    Swal.fire("DONE !!!", "You add user success!", "success");
+    setTimeout(function () {
+      close();
+    }, 1500);
+    console.log("You add user success");
+  } else {
+    console.log("error,cannot add");
+    Swal.fire({
+      icon: "error",
+      title: "Sorry !!!",
+      text: "Cannot add user!",
+    });
+  } */
+  // }
+};
+
 /* export default {
   name: "Mysugar",
   data() {
@@ -99,24 +134,19 @@ onBeforeMount(async () => {
   },
 };  */
 </script>
-<template>
-    
-    
-  <!--     
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-10">
-        <p class="text-3xl font-bold underline bg-red-200">
-       Welcome!
-     </p>
-      </div>
 
-        <Sidebar />
-    </div>
-    <div class="row">
+<template>
+
+ <Layout>
+         <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+        </template>
+             <div>
+          <div class="row">
       <div class="col-md-4">
         <div class="card-header">Add Record</div>
         <div class="card-body">
+
           <form @submit.prevent="save">
             <div class="form-group">
               <label> SugarValue</label>
@@ -148,21 +178,15 @@ onBeforeMount(async () => {
               />
             </div>
 
-            <div class="form-group">
-              <label>PatientIdNumber</label>
-              <input
-                type="text"
-                v-model="mysugar.patientIdNumber"
-                class="form-control"
-                placeholder="PatientIdNumber"
-              />
-            </div>
-
             <button type="submit" class="btn btn-primary">Save</button>
           </form>
         </div>
       </div>
--->
+  </div>
+
+
+
+
       <div class="col-md-8">
         <h2>Mysugar List</h2>
         <table class="table table-dark">
@@ -199,16 +223,15 @@ onBeforeMount(async () => {
             </tr>
           </tbody>
         </table>
-      </div>
-  
+      </div>  
 
 
-<div>
-   <router-link :to="{ name: 'login' }">login</router-link>
-</div>
 
-  <!-- </div> -->
 
-    <Sidebar />
+            </div>
+    </Layout>
+
+   
+
 </template>
 
