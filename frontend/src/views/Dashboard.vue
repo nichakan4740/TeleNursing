@@ -3,7 +3,6 @@ import { useRouter } from "vue-router";
 import { ref, onBeforeMount, computed } from "vue";
 import Layout from '../layouts/Layout.vue';
 const result = ref([]);
-
 const mysugar = ref({
   id: '',
   sugarValue: '',
@@ -20,6 +19,7 @@ const MysugarLoad = async () => {
     console.error('Error fetching data:', error);
   }
 };
+
 
 const save = async () => {
   if (mysugar.value.id === '') {
@@ -98,29 +98,24 @@ const remove = async (record) => {
     console.error('Error deleting data:', error);
   }
 };
-
 MysugarLoad();
 </script>
 
 <template>
-
- <Layout>
+ <Layout class="bg-gradient-to-b from-sky-200">
          <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
         </template>
 <!-- content -->
-<div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-10">
-        <h3 class="text-center text-dark mt-2">( Create Read Update and Delete)</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card-header">
-          Add Record
-        </div>
-        <div class="card-body">
+
+<div class="container mx-auto">
+
+<div class="grid grid-cols-2 gap-4  mt-8  ">
+
+  <div  class="box-content h-172 w-495 p-4 border-4 mt-8  bg-white ">01</div>
+ 
+  <div class="box-content h-172 w-495 p-4 border-4 mt-8 bg-white ">
+     <div class="card-body">
           <form @submit.prevent="save">
             <div class="form-group">
               <label>sugarValue</label>
@@ -134,13 +129,17 @@ MysugarLoad();
               <label>note</label>
               <input type="text" v-model="mysugar.note" class="form-control" placeholder="note">
             </div>
-            <button type="submit" class="btn btn-primary bg-sky-500/100">Save</button>
+            <button  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Save</button>
           </form>
         </div>
-      </div>
+  </div>
 
+  </div>
 
-      <div class="col-md-8">
+<div>
+
+    <div  class="box-content h-172 w-495 p-4 border-4  mt-10 bg-white">
+  <div class="col-md-8">
         <h2>mysugar</h2>
         <table class="table table-dark">
           <thead>
@@ -164,7 +163,11 @@ MysugarLoad();
           </tbody>
         </table>
       </div>
+
     </div>
+
+  </div>
+
   </div>
                
     </Layout>
