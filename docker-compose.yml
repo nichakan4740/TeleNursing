@@ -1,7 +1,21 @@
 version: "3"
 services:
  frontend:
-  build: ./frontend
-  image: frontend
+  build: 
+   context: .
+   dockerfile: Dockerfile
   container_name: frontend
-  restart: always
+  ports:
+   - 8080:80
+nginx:
+ image: nginx:alpine
+ container_name: nginx
+ volumes:
+  - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+ ports:
+   - 80:80
+ depends_on:
+  - frontend
+
+
+
