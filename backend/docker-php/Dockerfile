@@ -2,8 +2,8 @@
 FROM php:7.1-fpm 
 
 
-RUN apt-get update \
-  && apt-get install -y \
+RUN sudo apt-get update \
+  && sudo apt-get install -y \
     cron \
     libfreetype6-dev \
     libicu-dev \
