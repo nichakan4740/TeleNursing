@@ -1,7 +1,7 @@
 ### STAGE 1: Build ###
-FROM node:16.3.0-alpine3.13  AS build-stage
+FROM node:18.17.0  AS build-stage
 WORKDIR /app
-COPY package.json /app/package.json
+COPY ./frontend/package.json ./
 RUN npm install 
 COPY . .
 RUN npm run build
