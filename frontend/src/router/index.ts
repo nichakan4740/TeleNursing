@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/Login.vue';
 import Home from '../views/Home.vue'
 import Dashboard from '../views/Dashboard.vue'
+import Chatbot from '../views/Chatbot.vue'
 
 const history = createWebHistory(`${import.meta.env.VITE_BASE_URL}`)
 
@@ -25,7 +26,11 @@ const routes = [
     name: 'dashboard',
     component: Dashboard,
   },
-
+  {
+    path: '/chatbot',
+    name: 'chatbot',
+    component: Chatbot,
+  },
  
  
  
