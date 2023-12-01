@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MysugarController;
+use App\Http\Controllers\BotManController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('/mysugar', MysugarController::class);
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+// Route::match(['get', 'post'], 'botman', [BotManController::class, 'handle']);

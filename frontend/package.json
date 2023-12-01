@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "axios": "^1.6.2",
+    "botman-web-widget": "^0.0.20",
+    "cors": "^2.8.5",
     "vue": "^3.3.8",
-    "vue-router": "^4.2.5",
-    "cors": "^2.8.5"
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.0",

@@ -83,7 +83,7 @@ const toggle = () => {
                             fill="#A8B4CD"
                         />
                     </svg>
-                    <span class="text-slate-300">คุยกับเรา</span>
+                    <router-link  :to="{ name: 'chatbot' }" class="text-slate-300">คุยกับเรา</router-link>
                 </a>
                 <!-- ------------------------------------------------------------------------------- -->
                 <a
