@@ -10,7 +10,7 @@ const toggle = () => {
 };
 </script>
 <template>
-    <div class="relative flex min-h-screen">
+    <div class="relative flex min-h-screen ">
         <!-- Sidebar -->
         <div
             ref="content"

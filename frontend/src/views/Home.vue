@@ -1,8 +1,30 @@
 <script setup>
 import { useRouter } from "vue-router";
-import { ref, onBeforeMount, computed } from "vue";
+import { ref, onBeforeMount, computed,onMounted, onUnmounted } from "vue";
 import Layout from '../layouts/Layout.vue';
+import moment from "moment";
 
+
+/* แสดงเวลาแบบ real time  */
+const currentTime = ref('');
+const updateCurrentTime = () => {
+  currentTime.value = moment().format("DD MMM YYYY, HH:mm");
+};
+// ใช้ onMounted เพื่อเรียกใช้ฟังก์ชันเมื่อ Component ถูก Mount
+onMounted(() => {
+  // เริ่มต้นใช้งาน real-time update โดยเรียกฟังก์ชันทุกๆ 1 วินาที
+  updateCurrentTime();
+  setInterval(updateCurrentTime, 1000);
+});
+// ใช้ onUnmounted เพื่อทำความสะอาดเมื่อ Component ถูก Unmount
+onUnmounted(() => {
+  // ยกเลิกการใช้งาน setInterval เมื่อ Component ถูก Unmount เพื่อป้องกัน memory leak
+  clearInterval(updateCurrentTime);
+});
+
+
+
+/* แสดงค่าน้ำตาล */
 const result = ref([]);
 const mysugar = ref({
   id: '',
@@ -102,21 +124,25 @@ const remove = async (record) => {
 MysugarLoad();
 </script>
 
-<template>
-
- <Layout>
-         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">หน้าหลัก</h2>
-        </template>
+<template >
+ <Layout class="bg-gradient-to-b from-blue-100 ">
 <!-- content -->
+<div class="container mx-auto ">
+   
+    <div  class="box-content p-3  ml-5 mr-5 mt-10 bg-gradient-to-b from-blue-900 to-blue-800  shadow-lg shadow-slate-500/50  rounded-lg">
+            <h2 class="font-semibold text-xl text-center text-slate-200 ">หน้าหลัก</h2>
+    </div>
+          
+<div class="grid grid-cols-2 gap-2  mt-8  ">
 
-<div class="container mx-auto">
-
-<div class="grid grid-cols-2 gap-4  mt-8  ">
-
-  <div  class="box-content h-172 w-495 p-4 border-4 mt-8 ">01</div>
+  <div  class="box-content  p-8 bg-slate-100 shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5  rounded-lg">
+   <p>ยาอินซูลินที่แพทย์กำหนด</p>
+    <p>------------</p>
+  </div>
  
-  <div class="box-content h-172 w-495 p-4 border-4 mt-8 ">02</div>
+  <div class="box-content   p-8 bg-slate-100 shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5  rounded-lg  ">
+     <p>เวลาปัจจุบัน: {{ currentTime }}</p>
+  </div>
 
 
 
@@ -124,31 +150,43 @@ MysugarLoad();
 
 <div>
 
-    <div  class="box-content h-172 w-495 p-4 border-4  mt-10">
-
- <div class="card-body">
+    <div  class="box-content   bg-slate-100 shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5  rounded-lg ">
           <form @submit.prevent="save">
-            <div class="form-group">
-              <label>sugarValue</label>
-              <input type="text" v-model="mysugar.sugarValue" class="form-control" placeholder="sugarValue">
+
+          <div class="box-content ml-10 mr-10 " >
+            <p>น้ำตาลในเลือด (mg/dL) *</p>
+           <div class="box-content">
+              <input type="text" v-model="mysugar.sugarValue" class="form-control" placeholder="กรอกเฉพาะตัวเลข เช่น 260 ">
             </div>
-            <div class="form-group">
-              <label>symptom</label>
-              <input type="text" v-model="mysugar.symptom" class="form-control" placeholder="symptom">
+          </div>
+           
+
+           <div class="box-content  ml-8 mr-10" >
+            <p>อาการผิดปกติ (ถ้ามี)</p>
+              <input type="text" v-model="mysugar.symptom" class="form-control box-content p-10 w-10/12  mr-15" placeholder="กรุณากรอกข้อมูลเมื่อพบอาการผิดปกติ">
+          </div>
+
+
+
+          <div class="box-content  ml-10 mr-10">
+             <p>อื่นๆ</p>
+            <div class="box-content">
+              <input type="text" v-model="mysugar.note" class="form-control" placeholder="กรุณากรอกข้อมูลอื่นๆที่อยากบอกเรา เช่น เมื่อคืนรับประทานอะไรไปบ้าง ">
             </div>
-            <div class="form-group">
-              <label>note</label>
-              <input type="text" v-model="mysugar.note" class="form-control" placeholder="note">
-            </div>
+          </div>
+            
+
+
+
+             <div class="box-content ">
             <button  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Save</button>
+            </div>
           </form>
         </div>
     </div>
   </div>
-  </div>
                
     </Layout>
-
 
 </template>
 

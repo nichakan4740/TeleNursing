@@ -6,13 +6,13 @@ import Sidebar from '../components/Sidebar.vue';
 
 <template>
     <div>
-        <nav class="bg-white border-b border-gray-100">
+        <nav class=" bg-white shadow-lg shadow-slate-300/60">
             <!-- Primary Navigation Menu -->
-            <div class="mr-6">
+            <div>
                 <div class="flex justify-between h-16">
                     <!-- sidebar -->
                     <div>
-                        <Sidebar />
+                        <Sidebar/>
                     </div>
                     <div class="flex">
                         <!-- Logo -->
@@ -27,6 +27,8 @@ import Sidebar from '../components/Sidebar.vue';
                     
                         </div>
                     </div>
+
+
 
                     <!-- Hamburger จอเล็ก -->
                     <div class="-mr-2 flex items-center sm:hidden">
