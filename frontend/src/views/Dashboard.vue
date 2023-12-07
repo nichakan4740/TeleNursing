@@ -2,6 +2,7 @@
 import { useRouter } from "vue-router";
 import { ref, onBeforeMount, computed } from "vue";
 import Layout from '../layouts/Layout.vue';
+import moment from "moment";
 const result = ref([]);
 const mysugar = ref({
   id: '',
@@ -42,7 +43,7 @@ const saveData = async () => {
     if (response.ok) {
       alert('Saved');
       await MysugarLoad();
-       mysugar.value.id = '';
+      mysugar.value.id = '';
       mysugar.value.sugarValue = '';
       mysugar.value.symptom = '';
       mysugar.value.note = '';
@@ -155,6 +156,9 @@ MysugarLoad();
               <td>{{ sugarRecord.sugarValue }}</td>
               <td>{{ sugarRecord.symptom }}</td>
               <td>{{ sugarRecord.note }}</td>
+               <td>{{ moment(sugarRecord.created_at).format("DD MMM YYYY, HH:mm")}}</td>
+               <td> ------------ </td>
+                <td>{{ moment(sugarRecord.updated_at).format("DD MMM YYYY, HH:mm")  }}</td>
               <td>
                 <button type="button" class="btn btn-warning" @click="edit(sugarRecord)">Edit</button>
                 <button type="button" class="btn btn-danger" @click="remove(sugarRecord)">Delete</button>
