@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { ref, onBeforeMount, computed } from "vue";
 import Layout from '../layouts/Layout.vue';
 import moment from "moment";
-
+import Swal from "sweetalert2";
 
 /* date-time */
 const selectedDate = ref('');
@@ -112,27 +112,42 @@ const updateData = async () => {
   }
 };
 
+/* ลบ */
 const remove = async (record) => {
   try {
-    // Ask for confirmation before deleting
-    const confirmDeletion = window.confirm('Are you sure you want to delete this record?');
-    if (!confirmDeletion) {
-      return; // If user cancels deletion, exit the function
-    }
-
     const url = `${import.meta.env.VITE_BASE_URL}api/mysugar/${record.id}`;
-    const response = await fetch(url, { method: 'DELETE' });
-    if (response.ok) {
-      alert('Record deleted successfully!');
-      await MysugarLoad();
-    } else {
-      throw new Error('Failed to delete');
+
+    // Display confirmation dialog using Swal
+    const confirmationResult = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (confirmationResult.isConfirmed) {
+      const response = await fetch(url, { method: 'DELETE' });
+      if (response.ok) {
+        // Show success message using Swal if deletion is successful
+        await Swal.fire({
+          title: 'Deleted!',
+          text: 'Your file has been deleted.',
+          icon: 'success'
+        });
+        // Call MysugarLoad function after successful deletion
+        await MysugarLoad();
+      } else {
+        throw new Error('Failed to delete');
+      }
     }
   } catch (error) {
     console.error('Error deleting data:', error);
   }
 };
-
+// Assuming MysugarLoad function is defined somewhere in your code
 MysugarLoad();
 </script>
 
