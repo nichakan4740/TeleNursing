@@ -44,6 +44,7 @@ const MysugarLoad = async () => {
 };
 
 
+
 const save = async () => {
   if (mysugar.value.id === '') {
     await saveData();
@@ -78,49 +79,12 @@ const saveData = async () => {
   }
 };
 
-const edit = (record) => {
-  mysugar.value = { ...record };
-};
 
-const updateData = async () => {
-  try {
-    const editrecords = `${import.meta.env.VITE_BASE_URL}api/mysugar/${mysugar.value.id}`;
-    const response = await fetch(editrecords, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(mysugar.value),
-    });
-    if (response.ok) {
-      alert('Updated!!!');
-      await MysugarLoad();
-      mysugar.value.sugarValue = '';
-      mysugar.value.symptom = '';
-      mysugar.value.note = '';
-      mysugar.value.id = '';
-    } else {
-      throw new Error('Failed to update');
-    }
-  } catch (error) {
-    console.error('Error updating data:', error);
-  }
-};
 
-const remove = async (record) => {
-  try {
-    const url = `${import.meta.env.VITE_BASE_URL}api/mysugar/${record.id}`;
-    const response = await fetch(url, { method: 'DELETE' });
-    if (response.ok) {
-      alert('Deleted');
-      await MysugarLoad();
-    } else {
-      throw new Error('Failed to delete');
-    }
-  } catch (error) {
-    console.error('Error deleting data:', error);
-  }
-};
+
+
+
+
 MysugarLoad();
 </script>
 

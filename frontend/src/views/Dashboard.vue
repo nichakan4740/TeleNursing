@@ -97,20 +97,33 @@ const updateData = async () => {
       },
       body: JSON.stringify(mysugar.value),
     });
+
     if (response.ok) {
       alert('Updated!!!');
       await MysugarLoad();
+      // Reset fields
       mysugar.value.sugarValue = '';
       mysugar.value.symptom = '';
       mysugar.value.note = '';
       mysugar.value.id = '';
     } else {
-      throw new Error('Failed to update');
+      // Handle different HTTP error statuses
+      if (response.status === 404) {
+        throw new Error('Resource not found');
+      } else if (response.status === 401) {
+        throw new Error('Unauthorized');
+      } else {
+        throw new Error('Failed to update');
+      }
     }
   } catch (error) {
-    console.error('Error updating data:', error);
+    console.error('Error updating data:', error.message);
+    // You can display an error message to the user here if needed
   }
 };
+
+
+
 
 /* ลบ */
 const remove = async (record) => {
