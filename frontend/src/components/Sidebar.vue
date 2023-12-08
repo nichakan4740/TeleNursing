@@ -10,12 +10,12 @@ const toggle = () => {
 };
 </script>
 <template>
-    <div class="relative flex min-h-screen ">
+    <div class="relative flex h-screen  sticky top-0">
         <!-- Sidebar -->
         <div
             ref="content"
-            class="bg-blue-900 text-cyan-100 w-64 space-y-6 transition-all duration-700 overflow-hidden justify-center"
-            :class="[open ? 'max-w-lg' : 'max-w-0']"
+            class="bg-blue-900 text-cyan-100 w-64  h-5/5 ransition-all duration-700 overflow-hidden "
+            :class="[open ? 'max-w-full' : 'max-w-0']"
         >
             <a href="" class="flex items-conter py-3 px-12">
                 <span class="text-2xl front-extrabold text-white"
@@ -128,21 +128,7 @@ const toggle = () => {
                 <!-- ------------------------------------------------------------------------------- -->
             </nav>
         </div>
-        <!-- <button  >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 25 25"
-                        fill="currentColor"
-                        class="w-5 h-5"
-                    >
-                        <path
-                            fill-rule="evenodd"
-                            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z"
-                            clip-rule="evenodd"
-                        />
-                    </svg>
-                </button> -->
-        <!--Drawer -->
+    
         <svg
              @click.prevent="toggle()"
             xmlns="http://www.w3.org/2000/svg"
@@ -164,5 +150,5 @@ const toggle = () => {
 </template>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600&display=swap");
+
 </style>

@@ -179,12 +179,7 @@ chatbox.addEventListener("focus", placeHolder);
 
 
 <style>
-body {
-  font: 15px arial, sans-serif;
-  /* background-color: #d9d9d9; */
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
+
 
 #bodybox {
   margin: auto;

@@ -125,61 +125,63 @@ MysugarLoad();
 </script>
 
 <template >
- <Layout class="bg-gradient-to-b from-blue-100 ">
+ <Layout class="bg-gradient-to-b  from-blue-100 ">
 <!-- content -->
-<div class="container mx-auto ">
+<div class="container mx-auto">
    
     <div  class="box-content p-3  ml-5 mr-5 mt-10 bg-gradient-to-b from-blue-900 to-blue-800  shadow-lg shadow-slate-500/50  rounded-lg">
             <h2 class="font-semibold text-xl text-center text-slate-200 ">หน้าหลัก</h2>
     </div>
           
-<div class="grid grid-cols-2 gap-2  mt-8  ">
+<div class="grid grid-cols-2 gap-2  mt-5  ">
 
-  <div  class="box-content  p-8 bg-slate-100 shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5  rounded-lg">
+  <div  class="box-content  p-8 bg-white shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5  rounded-lg">
    <p>ยาอินซูลินที่แพทย์กำหนด</p>
     <p>------------</p>
   </div>
  
-  <div class="box-content   p-8 bg-slate-100 shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5  rounded-lg  ">
+  <div class="box-content   p-8 bg-white shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5  rounded-lg  ">
      <p>เวลาปัจจุบัน: {{ currentTime }}</p>
   </div>
-
-
-
   </div>
 
 <div>
 
-    <div  class="box-content   bg-slate-100 shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5  rounded-lg ">
+    <div  class="box-content   bg-white shadow-lg shadow-gray-300/50 mt-10 ml-5 mr-5 pt-6 pb-6 pl-20 pr-20  mb-10  rounded-lg ">
           <form @submit.prevent="save">
 
-          <div class="box-content ml-10 mr-10 " >
+          <div class="box-content  pt-3 pb-3  " >
             <p>น้ำตาลในเลือด (mg/dL) *</p>
-           <div class="box-content">
-              <input type="text" v-model="mysugar.sugarValue" class="form-control" placeholder="กรอกเฉพาะตัวเลข เช่น 260 ">
+           <div class="box-content ">
+              <input type="text" v-model="mysugar.sugarValue"  
+              class="block w-full rounded-md border-0 py-10 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"
+              placeholder="กรอกเฉพาะตัวเลข เช่น 260 ">
             </div>
           </div>
            
 
-           <div class="box-content  ml-8 mr-10" >
+           <div class="box-content pt-3 pb-3" >
             <p>อาการผิดปกติ (ถ้ามี)</p>
-              <input type="text" v-model="mysugar.symptom" class="form-control box-content p-10 w-10/12  mr-15" placeholder="กรุณากรอกข้อมูลเมื่อพบอาการผิดปกติ">
+              <input type="text" v-model="mysugar.symptom" 
+              class="block w-full rounded-md border-0 py-10 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"
+              placeholder="กรุณากรอกข้อมูลเมื่อพบอาการผิดปกติ">
           </div>
 
 
 
-          <div class="box-content  ml-10 mr-10">
+          <div class="box-content pt-3 pb-3 ">
              <p>อื่นๆ</p>
             <div class="box-content">
-              <input type="text" v-model="mysugar.note" class="form-control" placeholder="กรุณากรอกข้อมูลอื่นๆที่อยากบอกเรา เช่น เมื่อคืนรับประทานอะไรไปบ้าง ">
+              <input type="text" v-model="mysugar.note" 
+              class="block w-full rounded-md border-0 py-10 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"
+               placeholder="กรุณากรอกข้อมูลอื่นๆที่อยากบอกเรา เช่น เมื่อคืนรับประทานอะไรไปบ้าง ">
             </div>
           </div>
             
 
-
-
-             <div class="box-content ">
-            <button  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Save</button>
+             <div class="box-content pt-3 pb-3   ">
+             <button  class=" block w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-4 border  rounded">
+               บันทึกค่าน้ำตาล</button>
             </div>
           </form>
         </div>
@@ -191,5 +193,5 @@ MysugarLoad();
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,200;0,300;0,700;1,300;1,400;1,500;1,600&display=swap');
+
 </style>

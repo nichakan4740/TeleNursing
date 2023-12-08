@@ -3,6 +3,33 @@ import { useRouter } from "vue-router";
 import { ref, onBeforeMount, computed } from "vue";
 import Layout from '../layouts/Layout.vue';
 import moment from "moment";
+
+
+/* date-time */
+const selectedDate = ref('');
+const resultdate = ref('');
+
+const getDateDetails = () => {
+  if (selectedDate.value !== '') {
+    const date = new Date(selectedDate.value);
+
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    const weekDayIndex = date.getDay();
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayOfWeek = daysOfWeek[weekDayIndex];
+
+    const monthsOfYear = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthName = monthsOfYear[date.getMonth()];
+
+    resultdate.value = `วันที่: ${day} เดือน: ${month} ปี: ${year} วัน: ${dayOfWeek}<br> เดือน: ${monthName}`;
+  }
+};
+
+
+
 const result = ref([]);
 const mysugar = ref({
   id: '',
@@ -87,10 +114,16 @@ const updateData = async () => {
 
 const remove = async (record) => {
   try {
+    // Ask for confirmation before deleting
+    const confirmDeletion = window.confirm('Are you sure you want to delete this record?');
+    if (!confirmDeletion) {
+      return; // If user cancels deletion, exit the function
+    }
+
     const url = `${import.meta.env.VITE_BASE_URL}api/mysugar/${record.id}`;
     const response = await fetch(url, { method: 'DELETE' });
     if (response.ok) {
-      alert('Deleted');
+      alert('Record deleted successfully!');
       await MysugarLoad();
     } else {
       throw new Error('Failed to delete');
@@ -99,23 +132,40 @@ const remove = async (record) => {
     console.error('Error deleting data:', error);
   }
 };
+
 MysugarLoad();
 </script>
 
 <template>
- <Layout class="bg-gradient-to-b from-sky-200">
-         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
-        </template>
+ <Layout class="bg-gradient-to-b  from-blue-100 " >
+       
 <!-- content -->
 
 <div class="container mx-auto">
+ <div  class="box-content p-3  ml-5 mr-5 mt-10 bg-gradient-to-b from-blue-900 to-blue-800  shadow-lg shadow-slate-500/50  rounded-lg">
+            <h2 class="font-semibold text-xl text-center text-slate-200 ">สถิติ</h2>
+    </div>
 
-<div class="grid grid-cols-2 gap-4  mt-8  ">
+<div class="grid grid-cols-2 gap-2  mt-5  ">
 
-  <div  class="box-content h-172 w-495 p-4 border-4 mt-8  bg-white ">01</div>
+  <div   class="box-content  p-8 bg-white shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5  rounded-lg">
+    <p>เลือกช่วงเวลาที่ต้องการ</p>
+    <div>
+    <form>
+      <label for="dateInput">เลือกวันที่:</label>
+      <input type="date" v-model="selectedDate">
+      <button type="button" @click="getDateDetails">แสดงรายละเอียด</button>
+    </form>
+
+    <p v-if="resultdate !== ''" v-html="resultdate"></p>
+  </div>
+
+
+
+
+  </div>
  
-  <div class="box-content h-172 w-495 p-4 border-4 mt-8 bg-white ">
+  <div class="box-content  p-8 bg-white shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5  rounded-lg">
      <div class="card-body">
           <form @submit.prevent="save">
             <div class="form-group">
@@ -139,7 +189,7 @@ MysugarLoad();
 
 <div>
 
-    <div  class="box-content h-172 w-495 p-4 border-4  mt-10 bg-white">
+    <div class="box-content  p-8 bg-white shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5 mb-10  rounded-lg">
   <div class="col-md-8">
         <h2>mysugar</h2>
         <table class="table table-dark">
