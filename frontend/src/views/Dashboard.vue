@@ -48,7 +48,7 @@ const MysugarLoad = async () => {
   }
 };
 
-
+/* --------------------------------------------------------------------------------------------------- */
 const save = async () => {
   if (mysugar.value.id === '') {
     await saveData();
@@ -83,14 +83,29 @@ const saveData = async () => {
   }
 };
 
+/* --------------------------------------------------------------------------------------------------- */
 const edit = (record) => {
   mysugar.value = { ...record };
+   openModal();
 };
 
 const updateData = async () => {
   try {
     const editrecords = `${import.meta.env.VITE_BASE_URL}api/mysugar/${mysugar.value.id}`;
-    const response = await fetch(editrecords, {
+     // Display confirmation dialog using Swal
+    const confirmationResult = await Swal.fire({
+      title: 'Are you sure?',
+      text: "Do you want to edit it!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, edit it!'
+    });
+
+    if (confirmationResult.isConfirmed) {
+
+   const response = await fetch(editrecords, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -99,32 +114,24 @@ const updateData = async () => {
     });
 
     if (response.ok) {
-      alert('Updated!!!');
-      await MysugarLoad();
-      // Reset fields
-      mysugar.value.sugarValue = '';
-      mysugar.value.symptom = '';
-      mysugar.value.note = '';
-      mysugar.value.id = '';
-    } else {
-      // Handle different HTTP error statuses
-      if (response.status === 404) {
-        throw new Error('Resource not found');
-      } else if (response.status === 401) {
-        throw new Error('Unauthorized');
+        // Show success message using Swal if deletion is successful
+        await Swal.fire({
+          title: 'Completely fixed.!',
+          text: 'Your sugar level has been corrected.',
+          icon: 'success'
+        });
+        // Call MysugarLoad function after successful deletion
+        await MysugarLoad();
       } else {
-        throw new Error('Failed to update');
+        throw new Error('Failed to delete');
       }
     }
   } catch (error) {
-    console.error('Error updating data:', error.message);
-    // You can display an error message to the user here if needed
+    console.error('Error deleting data:', error);
   }
 };
 
-
-
-
+/* --------------------------------------------------------------------------------------------------- */
 /* ลบ */
 const remove = async (record) => {
   try {
@@ -147,7 +154,7 @@ const remove = async (record) => {
         // Show success message using Swal if deletion is successful
         await Swal.fire({
           title: 'Deleted!',
-          text: 'Your file has been deleted.',
+          text: 'Your sugar level has been deleted.',
           icon: 'success'
         });
         // Call MysugarLoad function after successful deletion
@@ -162,6 +169,21 @@ const remove = async (record) => {
 };
 // Assuming MysugarLoad function is defined somewhere in your code
 MysugarLoad();
+
+/* --------------------------------------------------------------------------------------------------- */
+/* model popup */
+const isModalOpen = ref(false);
+
+const openModal = () => {
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
+};
+
+
+
 </script>
 
 <template>
@@ -190,27 +212,10 @@ MysugarLoad();
 
 
 
-
   </div>
  
   <div class="box-content  p-8 bg-white shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5  rounded-lg">
-     <div class="card-body">
-          <form @submit.prevent="save">
-            <div class="form-group">
-              <label>sugarValue</label>
-              <input type="text" v-model="mysugar.sugarValue" class="form-control" placeholder="sugarValue">
-            </div>
-            <div class="form-group">
-              <label>symptom</label>
-              <input type="text" v-model="mysugar.symptom" class="form-control" placeholder="symptom">
-            </div>
-            <div class="form-group">
-              <label>note</label>
-              <input type="text" v-model="mysugar.note" class="form-control" placeholder="note">
-            </div>
-            <button  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Save</button>
-          </form>
-        </div>
+    
   </div>
 
   </div>
@@ -238,12 +243,54 @@ MysugarLoad();
                <td> ------------ </td>
                 <td>{{ moment(sugarRecord.updated_at).format("DD MMM YYYY, HH:mm")  }}</td>
               <td>
-                <button type="button" class="btn btn-warning" @click="edit(sugarRecord)">Edit</button>
+                <button type="button" class="btn btn-warning"  @click="edit(sugarRecord)">Edit</button>
                 <button type="button" class="btn btn-danger" @click="remove(sugarRecord)">Delete</button>
               </td>
             </tr>
           </tbody>
         </table>
+
+          
+<!-- modal popup -->
+
+
+<div>
+    <!-- Modal -->
+    <div v-if="isModalOpen" class="fixed inset-0 z-10 flex items-center justify-center">
+      <div class="fixed inset-0 bg-black opacity-50"></div>
+
+      <div class="bg-white p-8 rounded shadow-md z-20">
+        <h2 class="text-2xl font-bold mb-4">Modal Content</h2>
+        <div class="card-body">
+          <form @submit.prevent="save">
+            <div class="form-group">
+              <label>sugarValue</label>
+              <input type="text" v-model="mysugar.sugarValue" class="form-control" placeholder="sugarValue">
+            </div>
+            <div class="form-group">
+              <label>symptom</label>
+              <input type="text" v-model="mysugar.symptom" class="form-control" placeholder="symptom">
+            </div>
+            <div class="form-group">
+              <label>note</label>
+              <input type="text" v-model="mysugar.note" class="form-control" placeholder="note">
+            </div>
+            <button  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Save</button>
+          <button @click="closeModal" class="mt-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+          Close
+        </button>
+         </form>
+          
+        </div>
+        
+        <!-- Button to close the modal -->
+       
+      </div>
+    </div>
+  </div>
+
+
+
       </div>
 
     </div>

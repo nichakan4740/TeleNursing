@@ -52,8 +52,6 @@ const save = async () => {
     await updateData();
   }
 };
-
-
 const saveData = async () => {
   try {
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/mysugar`,  {
