@@ -17,7 +17,7 @@ import Sidebar from "../components/Sidebar.vue";
 
             
             <!-- Settings Dropdown -->
-            <div class="ml-3 relative"> User </div>
+            <div class="ml-3 relative">  </div>
           </div>
            
 
