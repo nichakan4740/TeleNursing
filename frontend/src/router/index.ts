@@ -3,7 +3,7 @@ import Login from '../views/Login.vue';
 import Home from '../views/Home.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Chatbot from '../views/Chatbot.vue'
-
+import SugarValue from '../views/SugarValue.vue';
 const history = createWebHistory(`${import.meta.env.VITE_BASE_URL}`)
 
 const routes = [
@@ -31,6 +31,12 @@ const routes = [
     name: 'chatbot',
     component: Chatbot,
   },
+  {
+    path: '/sugar-value',
+    name: 'SugarValue',
+    component: SugarValue,
+  },
+ 
  
  
  

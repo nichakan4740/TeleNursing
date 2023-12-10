@@ -4,7 +4,6 @@ import { ref, onBeforeMount, computed,onMounted, onUnmounted } from "vue";
 import Layout from '../layouts/Layout.vue';
 import moment from "moment";
 
-
 /* แสดงเวลาแบบ real time  */
 const currentTime = ref('');
 const updateCurrentTime = () => {
@@ -22,7 +21,7 @@ onUnmounted(() => {
   clearInterval(updateCurrentTime);
 });
 
-/* ++++++++++++++++ */
+
 
 /* แสดงค่าน้ำตาล */
 const result = ref([]);
@@ -44,7 +43,6 @@ const MysugarLoad = async () => {
 };
 
 
-
 const save = async () => {
   if (mysugar.value.id === '') {
     await saveData();
@@ -52,9 +50,11 @@ const save = async () => {
     await updateData();
   }
 };
+
+const router = useRouter();
 const saveData = async () => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/mysugar`,  {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/mysugar`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -64,11 +64,15 @@ const saveData = async () => {
     if (response.ok) {
       alert('Saved');
       await MysugarLoad();
-       mysugar.value.id = '';
-      mysugar.value.sugarValue = '';
-      mysugar.value.symptom = '';
-      mysugar.value.note = '';
-     
+      // mysugar.value.id = '';
+      // mysugar.value.sugarValue = '';
+      // mysugar.value.symptom = '';
+      // mysugar.value.note = '';
+
+      // ทำการนำทางไปยังหน้า SugarValue
+      navigateToSugarValue(mysugar.value.sugarValue);
+      
+
     } else {
       throw new Error('Failed to save');
     }
@@ -77,6 +81,64 @@ const saveData = async () => {
   }
 };
 
+// ทำการนำทางไปยังหน้า SugarValue
+
+const navigateToSugarValue = (sugarValue) => {
+  router.push({
+    path: '/sugar-value',
+    query: {
+      sugarValue: sugarValue,
+    },
+  });
+  // console.log('เข้า');
+  // console.log(sugarValue);
+
+};
+
+const edit = (record) => {
+  mysugar.value = { ...record };
+};
+
+const updateData = async () => {
+  try {
+    const editrecords = `${import.meta.env.VITE_BASE_URL}api/mysugar/${mysugar.value.id}`;
+    const response = await fetch(editrecords, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(mysugar.value),
+    });
+    if (response.ok) {
+      alert('Updated!!!');
+      await MysugarLoad();
+      mysugar.value.sugarValue = '';
+      mysugar.value.symptom = '';
+      mysugar.value.note = '';
+      mysugar.value.id = '';
+    } else {
+      throw new Error('Failed to update');
+    }
+  } catch (error) {
+    console.error('Error updating data:', error);
+  }
+};
+
+const remove = async (record) => {
+  try {
+    const url = `${import.meta.env.VITE_BASE_URL}api/mysugar/${record.id}`;
+    const response = await fetch(url, { method: 'DELETE' });
+    if (response.ok) {
+      alert('Deleted');
+      await MysugarLoad();
+    } else {
+      throw new Error('Failed to delete');
+    }
+  } catch (error) {
+    console.error('Error deleting data:', error);
+  }
+};
+MysugarLoad();
 
 
 
