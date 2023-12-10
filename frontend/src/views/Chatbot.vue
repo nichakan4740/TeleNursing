@@ -1,7 +1,5 @@
 <script setup>
 import Layout from "../layouts/Layout.vue";
-import { onMounted } from "vue";
-import { useRouter } from "vue-router";
 
 
 //links
@@ -17,7 +15,7 @@ var messages = [], //array that hold the record of each string in chat
 //edit this function to change what the chatbot says
 function chatbotResponse() {
   talking = true;
-  botMessage = "ขอโทษค่ะ กรุณาพิมพ์ตัวเลขที่กำหนด"; //the default message
+  botMessage = "ขอโทษค่ะ กรุณาพิมพ์ตัวเลขที่กำหนดเท่านั้นค่ะ"; //the default message
 
   if (lastUserMessage === "1" || lastUserMessage == "ข้อ 1" || lastUserMessage == "ข้อ1") {
     const one = [
@@ -46,7 +44,7 @@ function chatbotResponse() {
   
   if (lastUserMessage === "3" || lastUserMessage == "ข้อ 3" || lastUserMessage == "ข้อ3") {
     const one = [
-      "กรุณารอสักครู่ ระบบกำลังส่งห้องแชทใหhเท่าน / พยาบาลจะตอบกลับภายใน 10 นาที",
+      "กรุณารอสักครู่ ระบบกำลังส่งห้องแชทให้เท่าน / พยาบาลจะตอบกลับภายใน 10 นาที",
     ];
     botMessage = one[Math.floor(Math.random() * one.length)];
   }
