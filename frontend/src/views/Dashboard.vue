@@ -116,13 +116,13 @@ const updateData = async () => {
     }`;
     // Display confirmation dialog using Swal
     const confirmationResult = await Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to edit it!",
+      title: "คุณแน่ใจหรือไหม",
+      text: "คุณต้องการที่จะแก้ไขการบันทึกค่าน้ำตาล",
       icon: "warning",
+      confirmButtonText: "ใช่ ,แก้ไขมัน",
+      cancelButtonText: "ยกเลิก",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, edit it!",
+      showCloseButton: true
     });
 
     if (confirmationResult.isConfirmed) {
@@ -135,13 +135,6 @@ const updateData = async () => {
       });
 
       if (response.ok) {
-        // Show success message using Swal if deletion is successful
-        await Swal.fire({
-          title: "Completely fixed.!",
-          text: "Your sugar level has been corrected.",
-          icon: "success",
-        });
-        // Call MysugarLoad function after successful deletion
         await MysugarLoad();
       } else {
         throw new Error("Failed to delete");
@@ -160,25 +153,18 @@ const remove = async (record) => {
 
     // Display confirmation dialog using Swal
     const confirmationResult = await Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "คุณแน่ใจหรือไหม",
+      text: "คุณต้องการลบการบันทึกค่าน้ำตาล",
       icon: "warning",
+      confirmButtonText: "ใช่ ,ลบมัน",
+      cancelButtonText: "ยกเลิก",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      showCloseButton: true
     });
 
     if (confirmationResult.isConfirmed) {
       const response = await fetch(url, { method: "DELETE" });
       if (response.ok) {
-        // Show success message using Swal if deletion is successful
-        await Swal.fire({
-          title: "Deleted!",
-          text: "Your sugar level has been deleted.",
-          icon: "success",
-        });
-        // Call MysugarLoad function after successful deletion
         await MysugarLoad();
       } else {
         throw new Error("Failed to delete");
@@ -220,7 +206,7 @@ const closeModal = () => {
           class="box-content p-8 bg-white shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5 rounded-lg"
         >
           <p>เลือกช่วงเวลาที่ต้องการ</p>
-          <div>
+          <!-- <div>
             <form>
               <label for="dateInput">เลือกวันที่:</label>
               <input type="date" v-model="selectedDate" />
@@ -230,7 +216,7 @@ const closeModal = () => {
             </form>
 
             <p v-if="resultdate !== ''" v-html="resultdate"></p>
-          </div>
+          </div> -->
         </div>
 
         <div
@@ -240,7 +226,7 @@ const closeModal = () => {
 
       <div>
         <div class="box-content p-8 bg-white shadow-lg shadow-gray-300/50 mt-8 ml-5 mr-5 mb-10 rounded-lg" >
-        <h2 class="text-center">รายละเอียดค่าน้ำตาลช่วง</h2>
+        <h2 class="text-center text-2xl font-bold mb-5">รายละเอียดค่าน้ำตาลช่วง</h2>
 <!-- ---------------------------------------------------------------------------------------------------------------------- -->
 <div class="flex flex-col">
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -266,14 +252,14 @@ const closeModal = () => {
               <td class="whitespace-nowrap px-6 py-4">{{ sugarRecord.note }}</td>
               <td class="whitespace-nowrap px-6 py-4">
                  <button type="button" 
-                 class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                  @click="edit(sugarRecord)">
-                      Edit
+                       แก้ไขค่าระดับน้ำตาล
                  </button>
                  <button type="button" 
                  class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" 
                  @click="remove(sugarRecord)" >
-                     Delete
+                     ลบการบันทึก
                 </button>
               </td>
             </tr>
@@ -295,46 +281,50 @@ const closeModal = () => {
                 <div class="fixed inset-0 bg-black opacity-50"></div>
 
                 <div class="bg-white p-8 rounded shadow-md z-20">
-                  <h2 class="text-2xl font-bold mb-4">แก้ไขค่าระดับน้ำตาล</h2>
+                  <h2 class="text-xl font-bold mb-4 text-center">แก้ไขค่าระดับน้ำตาล</h2>
+        
+
                   <div class="card-body">
-                    <form @submit.prevent="save">
-                      <div class="form-group">
-                        <label>sugarValue</label>
-                        <input
-                          type="text"
-                          v-model="mysugar.sugarValue"
-                          class="form-control"
-                          placeholder="sugarValue"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label>symptom</label>
-                        <input
-                          type="text"
-                          v-model="mysugar.symptom"
-                          class="form-control"
-                          placeholder="symptom"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label>note</label>
-                        <input
-                          type="text"
-                          v-model="mysugar.note"
-                          class="form-control"
-                          placeholder="note"
-                        />
-                      </div>
+                     <form @submit.prevent="save">
+
+          <div class="box-content  pt-3 pb-3  " >
+            <p>น้ำตาลในเลือด (mg/dL) *</p>
+           <div class="box-content ">
+              <input type="text" v-model="mysugar.sugarValue"  
+              class="block w-full rounded-md border-0 py-10 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"
+              placeholder="กรอกเฉพาะตัวเลข เช่น 260 ">
+            </div>
+          </div>
+           
+
+           <div class="box-content pt-3 pb-3" >
+            <p>อาการผิดปกติ (ถ้ามี)</p>
+              <input type="text" v-model="mysugar.symptom" 
+              class="block w-full rounded-md border-0 py-10 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"
+              placeholder="กรุณากรอกข้อมูลเมื่อพบอาการผิดปกติ">
+          </div>
+
+
+
+          <div class="box-content pt-3 pb-3 ">
+             <p>อื่นๆ</p>
+            <div class="box-content">
+              <input type="text" v-model="mysugar.note" 
+              class="block w-full rounded-md border-0 py-10 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"
+               placeholder="กรุณากรอกข้อมูลอื่นๆที่อยากบอกเรา เช่น เมื่อคืนรับประทานอะไรไปบ้าง ">
+            </div>
+          </div>
+          
                       <button
-                        class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                       class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                       >
-                        Save
+                        แก้ไขค่าระดับน้ำตาล
                       </button>
                       <button
                         @click="closeModal"
-                        class="mt-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                      class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
                       >
-                        Close
+                       เสร็จสิ้น
                       </button>
                     </form>
                   </div>

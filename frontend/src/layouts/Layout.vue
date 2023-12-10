@@ -53,7 +53,7 @@ import Sidebar from "../components/Sidebar.vue";
 
         <!-- Page Content -->
         <main>
-            <slot />
+            <slot/>
         </main>
 
         

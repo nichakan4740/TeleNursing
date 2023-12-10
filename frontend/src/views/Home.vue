@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { ref, onBeforeMount, computed,onMounted, onUnmounted } from "vue";
 import Layout from '../layouts/Layout.vue';
 import moment from "moment";
-
+import Swal from "sweetalert2";
 /* แสดงเวลาแบบ real time  */
 const currentTime = ref('');
 const updateCurrentTime = () => {
@@ -52,9 +52,13 @@ const save = async () => {
 };
 
 const router = useRouter();
+
+
 const saveData = async () => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/mysugar`, {
+   const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/mysugar`, 
+   
+   {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -62,27 +66,27 @@ const saveData = async () => {
       body: JSON.stringify(mysugar.value),
     });
     if (response.ok) {
-      alert('Saved');
+     await Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'บันทึกค่าน้ำตาลเรียบร้อย',
+      showConfirmButton: false,
+      timer: 1500
+    });
       await MysugarLoad();
-      // mysugar.value.id = '';
-      // mysugar.value.sugarValue = '';
-      // mysugar.value.symptom = '';
-      // mysugar.value.note = '';
-
-      // ทำการนำทางไปยังหน้า SugarValue
       navigateToSugarValue(mysugar.value.sugarValue);
-      
-
     } else {
       throw new Error('Failed to save');
     }
+    
   } catch (error) {
     console.error('Error saving data:', error);
   }
 };
 
-// ทำการนำทางไปยังหน้า SugarValue
 
+
+// ทำการนำทางไปยังหน้า SugarValue
 const navigateToSugarValue = (sugarValue) => {
   router.push({
     path: '/sugar-value',
