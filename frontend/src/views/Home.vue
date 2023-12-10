@@ -22,7 +22,7 @@ onUnmounted(() => {
   clearInterval(updateCurrentTime);
 });
 
-
+/* ++++++++++++++++ */
 
 /* แสดงค่าน้ำตาล */
 const result = ref([]);
