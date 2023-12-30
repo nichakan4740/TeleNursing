@@ -15,3 +15,9 @@ class Mysugar extends Model
        /*  'patientIdNumber' */
     ];
 }
+
+
+
+
+
+
